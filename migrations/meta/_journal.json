@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1726149995618,
+      "tag": "0000_cold_meltdown",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1726151395702,
+      "tag": "0001_pale_power_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726226338802,
+      "tag": "0002_free_junta",
+      "breakpoints": true
+    }
+  ]
+}
