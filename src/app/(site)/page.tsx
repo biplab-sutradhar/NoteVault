@@ -2,12 +2,17 @@ import TitleSection from '@/components/landing-page/title-section'
 import Image from 'next/image'
 import Banner from "../../../public/appBanner.png";
 import Cal from "../../../public/cal.png";
+import Diamond from "../../../public/icons/diamond.svg";
+import CheckIcon from "../../../public/icons/check.svg";
 import React from 'react'
-import { CLIENTS, USERS } from '@/lib/constants';
+import { CLIENTS, PRICING_CARDS, PRICING_PLANS, USERS } from '@/lib/constants';
 import { randomUUID } from 'crypto';
 import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
-
+import {  CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import CustomCard from '@/components/landing-page/custom-card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 const page = () => {
   return (
     <> 
@@ -25,7 +30,7 @@ const page = () => {
             Get Cypress Free
           </button>
         </div>
-        <div className="relative ml-[-50px] mt-[-40px] flex w-[750px] items-center justify-center sm:ml-0 sm:w-full md:mt-[-90px]">
+        <div className="relative ml-[-50px] mt-[-40px] flex w-[750px]  items-center justify-center sm:ml-0 sm:w-full md:mt-[-90px]">
           <Image src={Banner} alt="Application Banner" />
           <div className="absolute bottom-0 left-0 right-0 top-[50%] z-10 bg-gradient-to-t dark:from-background"></div>
         </div>
@@ -94,9 +99,9 @@ const page = () => {
                 <CustomCard
                   key={testimonial.name}
                   className="w-[500px] shrink-0 rounded-xl dark:bg-gradient-to-t dark:from-border dark:to-background"
-                  cardHeader={
+                  CardHeader={
                     <div className="flex items-center gap-4">
-                      <Avatar>
+                      <Avatar> 
                         <AvatarImage src={`/avatars/${index + 1}.png`} />
                         <AvatarFallback>AV</AvatarFallback>
                       </Avatar>
@@ -111,17 +116,89 @@ const page = () => {
                       </div>
                     </div>
                   }
-                  cardContent={
+                  CardContent={
                     <p className="dark:text-washed-purple-800">
                       {testimonial.message}
                     </p>
                   }
+                  
                 ></CustomCard>
               ))}
             </div>
           ))}
         </div>
       </section>
+      </section>
+      <section className="mt-20 px-4 sm:px-6">
+        <TitleSection
+          title="The Perfect Plan For You"
+          subTitle="Experience all the benefits of our platform. Select a plan that suits your needs and take your productivity to new heights."
+          pill="Pricing"
+        />
+        <div className="mt-10 flex flex-col-reverse items-center justify-center gap-4 sm:flex-row sm:items-stretch">
+          {PRICING_CARDS.map((card) => (
+            
+            <CustomCard
+            key={randomUUID()}
+              className={clsx(
+                "relative w-[300px] rounded-2xl backdrop-blur-3xl dark:bg-black/40",
+                {
+                  "border-x-brand-primaryPurple/70":
+                    card.planType === PRICING_PLANS.proplan,
+                },
+              )}
+              CardHeader={
+                <CardTitle className="text-2xl font-semibold">
+                  {card.planType === PRICING_PLANS.proplan && (
+                    <>
+                      <div className="absolute top-0 -z-10 hidden h-32 w-full rounded-full bg-brand-primaryPurple/80 blur-[120px] dark:block" />
+                      <Image
+                        src={Diamond}
+                        alt="Pro Plan Icon"
+                        className="absolute right-6 top-6"
+                      />
+                    </>
+                  )}
+                  {card.planType}
+                </CardTitle>
+              }
+              CardContent={
+                <CardContent className="p-0">
+                  <span className="text-2xl font-normal">${card.price}</span>
+                  {+card.price > 0 ? (
+                    <span className="ml-1 dark:text-washed-purple-800">
+                      /mo
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  <p className="dark:text-washed-purple-800">
+                    {card.description}
+                  </p>
+                  <Button
+                    variant={"ghost"}
+                    className="mt-4 w-full whitespace-nowrap"
+                  >
+                    {card.planType === PRICING_PLANS.proplan
+                      ? "Go Pro"
+                      : "Get Started"}
+                  </Button>
+                </CardContent>
+              }
+              CardFooter={
+                <ul className="mb-2 flex flex-col gap-4 font-normal">
+                  <small>{card.highlightFeature}</small>
+                  {card.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2">
+                      <Image src={CheckIcon} alt="Check Icon" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              }
+            ></CustomCard>
+          ))}
+        </div>
       </section>
       </>
   )
